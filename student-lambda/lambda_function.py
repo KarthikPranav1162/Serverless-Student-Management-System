@@ -242,11 +242,11 @@ def lambda_handler(event, context):
 
     #  STUDENTS ROUTES  (/students)
 
-    payload = verify_token(event)
-    if payload == "expired":
-        return response({"message": "Session expired. Please sign in again."}, 401)
-    if not payload:
-        return response({"message": "Unauthorized. Please sign in."}, 401)
+    #payload = verify_token(event)
+    #if payload == "expired":
+     #   return response({"message": "Session expired. Please sign in again."}, 401)
+    #if not payload:
+     #   return response({"message": "Unauthorized. Please sign in."}, 401)
 
     try:
         conn   = get_connection()
