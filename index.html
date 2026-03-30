@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSK Tech Academy — Admin Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="authWrapper" class="auth-wrapper">
+  <div id="loginPage" class="auth-page active">
+    <div class="auth-left">
+      <div class="auth-brand">
+        <div class="auth-logo">PSK</div>
+        <div>
+          <h2>PSK Tech Academy</h2>
+          <p>Admin Portal</p>
+        </div>
+      </div>
+      <div class="auth-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <h3>Welcome Back</h3>
+          <p>Sign in to your admin account</p>
+        </div>
+        <div id="loginError" class="auth-error" style="display:none"></div>
+        <div class="form-group">
+          <label>Email Address / Username</label>
+          <input id="loginEmail" type="text" placeholder="Enter your email ID" autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password">
+        </div>
+        <button class="btn-auth-primary" onclick="handleLogin()">Sign In</button>
+        <div class="auth-links">
+          <a href="#" onclick="showPage('forgotPage')">Forgot password?</a>
+          <span>·</span>
+          <a href="#" onclick="showPage('signupPage')">Create account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="signupPage" class="auth-page">
+    <div class="auth-left">
+      <div class="auth-brand">
+        <div class="auth-logo">PSK</div>
+        <div>
+          <h2>PSK Tech Academy</h2>
+          <p>Admin Portal</p>
+        </div>
+      </div>
+
+      <div class="auth-dots"><span></span><span></span><span></span></div>
+    </div>
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <h3>Create Account</h3>
+          <p>Register as a new administrator</p>
+        </div>
+        <div id="signupError" class="auth-error" style="display:none"></div>
+        <div id="signupSuccess" class="auth-success" style="display:none"></div>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input id="signupName" type="text" placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input id="signupEmail" type="email" placeholder="Enter your email ID">
+        </div>
+        <div class="form-group">
+          <label>Username</label>
+          <input id="signupUsername" type="text" placeholder="Choose a username">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input id="signupPassword" type="password" placeholder="Min 8 characters">
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input id="signupConfirm" type="password" placeholder="Repeat password">
+        </div>
+        <button class="btn-auth-primary" onclick="handleSignup()">Create Account</button>
+        <div class="auth-links">
+          <a href="#" onclick="showPage('loginPage')">Already have an account? Sign in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="forgotPage" class="auth-page">
+    <div class="auth-left">
+      <div class="auth-brand">
+        <div class="auth-logo">PSK</div>
+        <div>
+          <h2>PSK Tech Academy</h2>
+          <p>Admin Portal</p>
+        </div>
+      </div>
+
+      <div class="auth-dots"><span></span><span></span><span></span></div>
+    </div>
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <h3>Forgot Password</h3>
+          <p>Enter your email to receive a reset link</p>
+        </div>
+        <div id="forgotError" class="auth-error" style="display:none"></div>
+        <div id="forgotSuccess" class="auth-success" style="display:none"></div>
+        <div class="form-group">
+          <label>Registered Email Address</label>
+          <input id="forgotEmail" type="email" placeholder="Enter your email ID">
+        </div>
+        <button class="btn-auth-primary" onclick="handleForgot()">Send Reset Link</button>
+        <div class="auth-links">
+          <a href="#" onclick="showPage('loginPage')">&#8592; Back to Sign In</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="resetPage" class="auth-page">
+    <div class="auth-left">
+      <div class="auth-brand">
+        <div class="auth-logo">PSK</div>
+        <div>
+          <h2>PSK Tech Academy</h2>
+          <p>Admin Portal — New Password</p>
+        </div>
+      </div>
+      <div class="auth-tagline">
+        <h1>Set a New<br>Password.</h1>
+        <p>Choose a strong password to secure your admin account.</p>
+      </div>
+      <div class="auth-dots"><span></span><span></span><span></span></div>
+    </div>
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <h3>Reset Password</h3>
+          <p>Create your new password below</p>
+        </div>
+        <div id="resetError" class="auth-error" style="display:none"></div>
+        <div id="resetSuccess" class="auth-success" style="display:none"></div>
+        <div class="form-group">
+          <label>New Password</label>
+          <input id="resetPassword" type="password" placeholder="Min 8 characters">
+        </div>
+        <div class="form-group">
+          <label>Confirm New Password</label>
+          <input id="resetConfirm" type="password" placeholder="Repeat new password">
+        </div>
+        <button class="btn-auth-primary" onclick="handleReset()">Update Password</button>
+      </div>
+    </div>
+  </div>
+</div><div id="dashboardWrapper" class="dashboard-wrapper" style="display:none">
+  <header>
+    <div class="header-inner">
+      <div class="header-left">
+        <div class="logo-mark">PSK</div>
+        <div class="header-text">
+          <h1>PSK Tech Academy</h1>
+          <p>Admin Dashboard</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <span id="adminNameDisplay" class="admin-badge"></span>
+        <button class="btn-logout" onclick="handleLogout()">&#9099; Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">&#128269;</span>
+        <input id="search" placeholder="Search Student Info" onkeyup="searchStudent()">
+      </div>
+      <div class="toolbar-actions">
+        <button class="btn-action btn-add-main" onclick="openModal()">
+          <span class="btn-icon">＋</span> Add Student
+        </button>
+        <button class="btn-action btn-edit-main" onclick="editSelectedRow()" id="btnEditMain" disabled>
+          <span class="btn-icon">✎</span> Edit Student
+        </button>
+        <button class="btn-action btn-del-main" onclick="deleteSelectedRow()" id="btnDelMain" disabled>
+          <span class="btn-icon">🗑</span> Delete Student
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)"></th>
+              <th>Student ID</th>
+              <th>Name</th>
+              <th>Course</th>
+              <th>Email</th>
+              <th>Contact</th>
+              <th>Reg. Date</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon">&#128194;</div>
+          <p>No students found</p>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="admin-footer">
+      <p>&copy; PSK Tech Academy 2026. All rights reserved.</p>
+    </footer>
+  </div>
+</div>
+
+<div id="viewWrapper" class="dashboard-wrapper" style="display:none">
+  <header>
+    <div class="header-inner">
+      <div class="header-left">
+        <div class="logo-mark">PSK</div>
+        <div class="header-text">
+          <h1>PSK Tech Academy</h1>
+          <p>Student Profile</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="btn-action btn-edit-main" onclick="closeView()">
+          &#8592; Back to Dashboard
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="view-card">
+      <div class="view-header">
+        <h2 id="viewName">Student Name</h2>
+        <span class="course-badge" id="viewCourse">Course</span>
+      </div>
+      <div class="view-grid">
+        <div class="view-group">
+          <label>Student ID</label>
+          <p id="viewStudentId" class="mono-text">—</p>
+        </div>
+        <div class="view-group">
+          <label>Email Address</label>
+          <p id="viewEmail">—</p>
+        </div>
+        <div class="view-group">
+          <label>Contact Number</label>
+          <p id="viewContact">—</p>
+        </div>
+        <div class="view-group">
+          <label>Date of Birth</label>
+          <p id="viewDob">—</p>
+        </div>
+        <div class="view-group">
+          <label>Date of Registration</label>
+          <p id="viewRegDate">—</p>
+        </div>
+        <div class="view-group">
+          <label>Location (City, State)</label>
+          <p id="viewLocation">—</p>
+        </div>
+        <div class="view-group full-width">
+          <label>Address</label>
+          <p id="viewAddress">—</p>
+        </div>
+      </div>
+    </div>
+    <footer class="admin-footer">
+      <p>&copy; PSK Tech Academy 2026. All rights reserved.</p>
+    </footer>
+  </div>
+</div>
+
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div>
+        <h2 id="modalTitle">Add Student Information</h2>
+        <p id="modalSubtitle" class="modal-subtitle">Enter the student's details below</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()">&#10005;</button>
+    </div>
+
+    <input id="studentId" hidden>
+
+    <div id="idPreviewWrap" class="id-preview-wrap" style="display:none">
+      <span class="id-preview-label">Student ID</span>
+      <span id="idPreviewVal" class="id-preview-val">—</span>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Full Name <span class="req">*</span></label>
+        <input id="name" placeholder="Enter full name">
+      </div>
+      <div class="form-group">
+        <label>Date of Birth <span class="req">*</span></label>
+        <input id="dob" type="date">
+      </div>
+      <div class="form-group">
+        <label>Email Address <span class="req">*</span></label>
+        <input id="email" type="email" placeholder="example@gmail.com">
+      </div>
+      <div class="form-group">
+        <label>Contact Number <span class="req">*</span></label>
+        <input id="contact" placeholder="+91 XXXXXXXXXX">
+      </div>
+      <div class="form-group">
+        <label>State <span class="req">*</span></label>
+        <select id="stateSelect" onchange="populateCities()">
+          <option value="" disabled selected>Select State</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>City / District <span class="req">*</span></label>
+        <select id="citySelect">
+          <option value="" disabled selected>Select City</option>
+        </select>
+      </div>
+      <div class="form-group full-width">
+        <label>Address <span class="req">*</span></label>
+        <textarea id="address" rows="3" placeholder="Enter complete alphanumeric address..."></textarea>
+      </div>
+    </div>
+
+    <div class="form-section-title">Enrollment Details</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Course <span class="req">*</span></label>
+        <select id="course" onchange="updateIdPreview()">
+          <option value="" disabled selected>Select a Course</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Date of Registration <span class="req">*</span></label>
+        <input id="joiningDate" type="date" onchange="updateIdPreview()">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-save" onclick="saveStudent()">&#10003; Save Student</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="confirmBox" class="modal">
+  <div class="modal-content confirm-content">
+    <div class="confirm-icon">⚠</div>
+    <h3>Delete Student?</h3>
+    <p id="confirmText"></p>
+    <div class="modal-actions">
+      <button class="btn-delete-confirm" onclick="confirmYes()">Yes, Delete</button>
+      <button class="btn-cancel" onclick="confirmNo()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
