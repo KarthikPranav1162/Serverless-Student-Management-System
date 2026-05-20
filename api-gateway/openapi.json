@@ -1,0 +1,121 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "stud-api",
+    "version" : "2026-03-10 15:38:57UTC"
+  },
+  "servers" : [ {
+    "url" : "https://8we5f2dz4d.execute-api.us-east-1.amazonaws.com/{basePath}",
+    "variables" : {
+      "basePath" : {
+        "default" : ""
+      }
+    }
+  } ],
+  "paths" : {
+    "/student-lambda" : {
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /student-lambda"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:801195562730:function:student-lambda/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/students" : {
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /students"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:801195562730:function:student-lambda/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/auth/forgot-password" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /auth/forgot-password"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:801195562730:function:student-lambda/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/auth/login" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /auth/login"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:801195562730:function:student-lambda/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/auth/reset-password" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /auth/reset-password"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:801195562730:function:student-lambda/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/auth/signup" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /auth/signup"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:801195562730:function:student-lambda/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    }
+  },
+  "x-amazon-apigateway-cors" : {
+    "allowMethods" : [ "DELETE", "GET", "OPTIONS", "POST", "PUT" ],
+    "allowHeaders" : [ "*" ],
+    "maxAge" : 0,
+    "allowCredentials" : false,
+    "allowOrigins" : [ "*" ]
+  },
+  "x-amazon-apigateway-importexport-version" : "1.0"
+}
