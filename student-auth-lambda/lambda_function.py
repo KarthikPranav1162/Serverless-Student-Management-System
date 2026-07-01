@@ -45,6 +45,8 @@ def lambda_handler(event, context):
     print(f"Method : {method}")
     print(f"Path   : {path}")
 
+    raise Exception("Testing CloudWatch Alarm")
+
     if method == "OPTIONS":
         print("OPTIONS request")
         return response({"message": "ok"})
