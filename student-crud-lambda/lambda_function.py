@@ -9,6 +9,7 @@ DB_PASS = os.environ['DB_PASS']
 DB_NAME = os.environ['DB_NAME']
 JWT_SECRET = os.environ['JWT_SECRET']
 
+
 def get_connection():
     return pymysql.connect(
         host=DB_HOST,
@@ -16,6 +17,7 @@ def get_connection():
         password=DB_PASS,
         database=DB_NAME
     )
+
 
 def response(body, status=200):
     return {
@@ -28,42 +30,62 @@ def response(body, status=200):
         "body": json.dumps(body, default=str)
     }
 
+
 def verify_token(event):
 
-        auth = event.get("headers", {}).get("authorization", "") \
-               or event.get("headers", {}).get("Authorization", "")
+    auth = event.get("headers", {}).get("authorization", "") \
+           or event.get("headers", {}).get("Authorization", "")
 
-        if not auth.startswith("Bearer "):
-            return None
+    if not auth.startswith("Bearer "):
+        print("Authorization header missing")
+        return None
 
-        token = auth[7:]
+    token = auth[7:]
 
-        try:
-            return jwt.decode(
-                token,
-                JWT_SECRET,
-                algorithms=["HS256"]
-            )
-        except:
-            return None
+    try:
+        payload = jwt.decode(
+            token,
+            JWT_SECRET,
+            algorithms=["HS256"]
+        )
+        print(f"Token verified for user: {payload.get('username')}")
+        return payload
+
+    except Exception as e:
+        print(f"Token verification failed: {str(e)}")
+        return None
+
 
 def lambda_handler(event, context):
+
+    print("=" * 60)
+    print("Student CRUD Lambda Invoked")
+
+    method = event["requestContext"]["http"]["method"]
+    path = event.get("rawPath", "")
+
+    print(f"Method : {method}")
+    print(f"Path   : {path}")
 
     payload = verify_token(event)
 
     if not payload:
+        print("Unauthorized request")
         return response(
             {"message": "Unauthorized"},
             401
         )
 
-    method = event["requestContext"]["http"]["method"]
-
     conn = get_connection()
     cursor = conn.cursor()
 
+    # ==================================================
     # GET STUDENTS
+    # ==================================================
+
     if method == "GET":
+
+        print("Fetching all students...")
 
         cursor.execute("""
             SELECT studentId,name,dob,course,email,
@@ -89,13 +111,21 @@ def lambda_handler(event, context):
                 "address": row[9]
             })
 
+        print(f"Students fetched successfully. Count = {len(students)}")
+
         conn.close()
+
         return response(students)
 
+    # ==================================================
     # ADD STUDENT
+    # ==================================================
+
     elif method == "POST":
 
         body = json.loads(event["body"])
+
+        print(f"Adding student: {body['studentId']} - {body['name']}")
 
         cursor.execute("""
             INSERT INTO students
@@ -116,14 +146,22 @@ def lambda_handler(event, context):
         ))
 
         conn.commit()
+
+        print("Student inserted into database successfully")
+
         conn.close()
 
         return response({"message": "Student added"})
 
+    # ==================================================
     # UPDATE STUDENT
+    # ==================================================
+
     elif method == "PUT":
 
         body = json.loads(event["body"])
+
+        print(f"Updating student: {body['studentId']}")
 
         cursor.execute("""
             UPDATE students
@@ -151,14 +189,22 @@ def lambda_handler(event, context):
         ))
 
         conn.commit()
+
+        print(f"Student updated successfully: {body['studentId']}")
+
         conn.close()
 
         return response({"message": "Student updated"})
 
+    # ==================================================
     # DELETE STUDENT
+    # ==================================================
+
     elif method == "DELETE":
 
         body = json.loads(event["body"])
+
+        print(f"Deleting student: {body['studentId']}")
 
         cursor.execute(
             "DELETE FROM students WHERE studentId=%s",
@@ -166,8 +212,15 @@ def lambda_handler(event, context):
         )
 
         conn.commit()
+
+        print(f"Student deleted successfully: {body['studentId']}")
+
         conn.close()
 
         return response({"message": "Student deleted"})
+
+    print(f"Unsupported HTTP Method: {method}")
+
+    conn.close()
 
     return response({"message": "Unsupported method"}, 405)

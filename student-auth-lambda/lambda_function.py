@@ -12,6 +12,7 @@ DB_PASS = os.environ['DB_PASS']
 DB_NAME = os.environ['DB_NAME']
 JWT_SECRET = os.environ['JWT_SECRET']
 
+
 def get_connection():
     return pymysql.connect(
         host=DB_HOST,
@@ -19,6 +20,7 @@ def get_connection():
         password=DB_PASS,
         database=DB_NAME
     )
+
 
 def response(body, status=200):
     return {
@@ -31,12 +33,20 @@ def response(body, status=200):
         "body": json.dumps(body, default=str)
     }
 
+
 def lambda_handler(event, context):
+
+    print("=" * 60)
+    print("Student Auth Lambda Invoked")
 
     method = event["requestContext"]["http"]["method"]
     path = event["rawPath"]
 
+    print(f"Method : {method}")
+    print(f"Path   : {path}")
+
     if method == "OPTIONS":
+        print("OPTIONS request")
         return response({"message": "ok"})
 
     # =========================
@@ -45,6 +55,8 @@ def lambda_handler(event, context):
 
     if path == "/auth/signup" and method == "POST":
 
+        print("Signup request received")
+
         body = json.loads(event["body"])
 
         name = body.get("name")
@@ -52,7 +64,10 @@ def lambda_handler(event, context):
         username = body.get("username")
         password = body.get("password")
 
+        print(f"Signup email: {email}")
+
         if not all([name, email, username, password]):
+            print("Signup failed - Missing required fields")
             return response({"message": "All fields required"}, 400)
 
         conn = get_connection()
@@ -65,6 +80,7 @@ def lambda_handler(event, context):
 
         if cursor.fetchone():
             conn.close()
+            print("Signup failed - Email or username already exists")
             return response(
                 {"message": "Email or username already exists"},
                 409
@@ -87,6 +103,8 @@ def lambda_handler(event, context):
         conn.commit()
         conn.close()
 
+        print(f"Signup successful for {email}")
+
         return response({
             "message": "Account created successfully"
         })
@@ -97,6 +115,8 @@ def lambda_handler(event, context):
 
     if path == "/auth/login" and method == "POST":
 
+        print("Login request received")
+
         body = json.loads(event["body"])
 
         email_or_user = body.get(
@@ -104,6 +124,8 @@ def lambda_handler(event, context):
         ).strip().lower()
 
         password = body.get("password", "")
+
+        print(f"Login user: {email_or_user}")
 
         conn = get_connection()
         cursor = conn.cursor()
@@ -121,6 +143,7 @@ def lambda_handler(event, context):
         conn.close()
 
         if not row:
+            print("Login failed - User not found")
             return response(
                 {"message": "Invalid credentials"},
                 401
@@ -132,6 +155,7 @@ def lambda_handler(event, context):
             password.encode("utf-8"),
             stored_hash.encode("utf-8")
         ):
+            print(f"Login failed - Wrong password for {email}")
             return response(
                 {"message": "Invalid credentials"},
                 401
@@ -149,6 +173,8 @@ def lambda_handler(event, context):
             algorithm="HS256"
         )
 
+        print(f"Login successful for {email}")
+
         return response({
             "token": token,
             "name": full_name,
@@ -161,8 +187,12 @@ def lambda_handler(event, context):
 
     if path == "/auth/forgot-password" and method == "POST":
 
+        print("Forgot password request")
+
         body = json.loads(event["body"])
         email = body.get("email")
+
+        print(f"Reset requested for {email}")
 
         conn = get_connection()
         cursor = conn.cursor()
@@ -187,6 +217,8 @@ def lambda_handler(event, context):
         conn.commit()
         conn.close()
 
+        print("Reset token generated")
+
         return response({
             "message": "Reset token generated",
             "token": token
@@ -197,6 +229,8 @@ def lambda_handler(event, context):
     # =========================
 
     if path == "/auth/reset-password" and method == "POST":
+
+        print("Reset password request")
 
         body = json.loads(event["body"])
 
@@ -220,6 +254,7 @@ def lambda_handler(event, context):
 
         if not row:
             conn.close()
+            print("Password reset failed - Invalid or expired token")
             return response(
                 {"message": "Invalid or expired token"},
                 400
@@ -244,9 +279,13 @@ def lambda_handler(event, context):
         conn.commit()
         conn.close()
 
+        print("Password reset successful")
+
         return response({
             "message": "Password reset successful"
         })
+
+    print(f"Unknown route: {method} {path}")
 
     return response(
         {"message": "Route not found"},
