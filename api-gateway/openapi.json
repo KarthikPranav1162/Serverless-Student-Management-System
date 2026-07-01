@@ -5,7 +5,7 @@
     "version" : "2026-03-10 15:38:57UTC"
   },
   "servers" : [ {
-    "url" : "https://8we5f2dz4d.execute-api.us-east-1.amazonaws.com/{basePath}",
+    "url" : "https://z4bv9tpob9.execute-api.ap-south-1.amazonaws.com/{basePath}",
     "variables" : {
       "basePath" : {
         "default" : ""

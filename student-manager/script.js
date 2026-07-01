@@ -1,6 +1,6 @@
 /* ==================== CONFIG ==================== */
-const API      = "https://8we5f2dz4d.execute-api.us-east-1.amazonaws.com/students";
-const AUTH_API = "https://8we5f2dz4d.execute-api.us-east-1.amazonaws.com/auth";
+const API      = "https://z4bv9tpob9.execute-api.ap-south-1.amazonaws.com";
+const AUTH_API = "https://z4bv9tpob9.execute-api.ap-south-1.amazonaws.com/auth";
 
 const COURSES = [
   { code: 101, name: "Full Stack Development" }, { code: 102, name: "Data Analytics" },
@@ -306,13 +306,32 @@ function showDashboard() {
 }
 
 function loadStudents() {
-  fetch(API, { headers: authHeaders() })
-    .then(res => {
-      if (res.status === 401) { showToast("Session expired. Please sign in again.", "warn"); handleLogout(); return Promise.reject("Unauthorized"); }
-      return res.json();
-    })
-    .then(data => { students = Array.isArray(data) ? data : []; displayStudents(students); })
-    .catch(err => { if (err !== "Unauthorized") { students = []; displayStudents([]); } });
+  fetch(`${API}/students`, {
+    method: "GET",
+    headers: authHeaders()
+  })
+  .then(res => {
+    if (res.status === 401) {
+      showToast("Session expired. Please sign in again.", "warn");
+      handleLogout();
+      return Promise.reject("Unauthorized");
+    }
+
+    return res.json();
+  })
+  .then(data => {
+    console.log("Students loaded:", data);
+    students = Array.isArray(data) ? data : [];
+    displayStudents(students);
+  })
+  .catch(err => {
+    console.log("Load error:", err);
+
+    if (err !== "Unauthorized") {
+      students = [];
+      displayStudents([]);
+    }
+  });
 }
 
 function displayStudents(data) {
@@ -471,16 +490,34 @@ function saveStudent() {
 
 function addStudent(payload) {
   payload.studentId = generateStudentId(payload.course, payload.joiningDate);
-  if (!payload.studentId) { showToast("Could not generate ID. Check course and date.", "error"); return; }
 
-  fetch(API, { method: "POST", headers: authHeaders(), body: JSON.stringify(payload) })
+  if (!payload.studentId) {
+    showToast("Could not generate ID. Check course and date.", "error");
+    return;
+  }
+
+  fetch(`${API}/students`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(payload)
+  })
   .then(res => res.json().then(data => ({ status: res.status, data })))
   .then(({ status, data }) => {
-    if (status === 401) { handleLogout(); return; }
-    if (status >= 400) { showToast("Error: Failed to add student", "error"); return; }
+    if (status === 401) {
+      handleLogout();
+      return;
+    }
+
+    if (status >= 400) {
+      showToast("Error: Failed to add student", "error");
+      return;
+    }
+
     showToast(`Student added! ID: ${payload.studentId}`, "success");
-    closeModal(); loadStudents();
-  }).catch(() => showToast("Network error", "error"));
+    closeModal();
+    loadStudents();
+  })
+  .catch(() => showToast("Network error", "error"));
 }
 
 function editStudent(id) {
@@ -508,14 +545,32 @@ function editStudent(id) {
 
 function updateStudent(payload) {
   payload.studentId = document.getElementById("studentId").value;
-  fetch(API, { method: "PUT", headers: authHeaders(), body: JSON.stringify(payload) })
+
+  fetch(`${API}/students`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(payload)
+  })
   .then(res => res.json().then(data => ({ status: res.status, data })))
   .then(({ status, data }) => {
-    if (status === 401) { handleLogout(); return; }
-    if (status >= 400) { showToast("Error: Failed to update student", "error"); return; }
+
+    if (status === 401) {
+      handleLogout();
+      return;
+    }
+
+    if (status >= 400) {
+      showToast("Error: Failed to update student", "error");
+      return;
+    }
+
     showToast("Student updated successfully!", "success");
-    closeModal(); loadStudents();
-  }).catch(() => showToast("Network error", "error"));
+    closeModal();
+    loadStudents();
+  })
+  .catch(() => {
+    showToast("Network error", "error");
+  });
 }
 
 function askDelete(id) {
@@ -526,13 +581,38 @@ function askDelete(id) {
 }
 
 function confirmYes() {
-  const ids = Array.isArray(deleteId) ? deleteId : [deleteId];
-  const promises = ids.map(id => fetch(API, { method: "DELETE", headers: authHeaders(), body: JSON.stringify({ studentId: id }) }));
-  Promise.all(promises).then(() => {
-    showToast(ids.length > 1 ? `${ids.length} students deleted` : "Student deleted", "info");
-    document.getElementById("confirmBox").style.display = "none";
-    loadStudents();
-  }).catch(() => showToast("Failed to delete student(s)", "error"));
+
+  const ids = Array.isArray(deleteId)
+    ? deleteId
+    : [deleteId];
+
+  const promises = ids.map(id =>
+    fetch(`${API}/students`, {
+      method: "DELETE",
+      headers: authHeaders(),
+      body: JSON.stringify({
+        studentId: id
+      })
+    })
+  );
+
+  Promise.all(promises)
+    .then(() => {
+
+      showToast(
+        ids.length > 1
+          ? `${ids.length} students deleted`
+          : "Student deleted",
+        "info"
+      );
+
+      document.getElementById("confirmBox").style.display = "none";
+
+      loadStudents();
+    })
+    .catch(() => {
+      showToast("Failed to delete student(s)", "error");
+    });
 }
 
 function confirmNo() { document.getElementById("confirmBox").style.display = "none"; }

@@ -1,0 +1,68 @@
+name: Deploy Serverless Student Management System
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Configure AWS Credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      ####################################################
+      # Deploy Student Auth Lambda
+      ####################################################
+
+      - name: Zip Auth Lambda
+        run: |
+          cd student-auth-lambda
+          zip -r auth.zip .
+
+      - name: Deploy Auth Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name ${{ secrets.AUTH_LAMBDA_NAME }} \
+            --zip-file fileb://student-auth-lambda/auth.zip
+
+      ####################################################
+      # Deploy Student CRUD Lambda
+      ####################################################
+
+      - name: Zip CRUD Lambda
+        run: |
+          cd student-crud-lambda
+          zip -r crud.zip .
+
+      - name: Deploy CRUD Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name ${{ secrets.CRUD_LAMBDA_NAME }} \
+            --zip-file fileb://student-crud-lambda/crud.zip
+
+      ####################################################
+      # Upload Frontend to Amazon S3
+      ####################################################
+
+      - name: Deploy Frontend
+        run: |
+          aws s3 sync student-manager/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
+
+      ####################################################
+      # Finish
+      ####################################################
+
+      - name: Success
+        run: echo "Deployment completed successfully!"
