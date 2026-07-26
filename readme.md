@@ -66,7 +66,7 @@ https://serverless-student-managementv1.s3.ap-south-1.amazonaws.com/index.html
 The following diagram illustrates the overall serverless architecture of the application.
 
 <p align="center">
-  <img src="architecture/serverless-architecture-diagram.png"
+  <img src="architecture/serverless_architecture_diagram.png"
        alt="Serverless Student Management System Architecture"
        width="100%">
 </p>
