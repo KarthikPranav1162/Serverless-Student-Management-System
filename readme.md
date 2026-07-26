@@ -66,7 +66,7 @@ https://serverless-student-managementv1.s3.ap-south-1.amazonaws.com/index.html
 The following diagram illustrates the overall serverless architecture of the application.
 
 <p align="center">
-  <img src="architecture/Serverless-Architecture-Diagram.png"
+  <img src="architecture/serverless-architecture-diagram.png"
        alt="Serverless Student Management System Architecture"
        width="100%">
 </p>
@@ -78,12 +78,12 @@ The following diagram illustrates the overall serverless architecture of the app
 The following diagram shows the automated deployment workflow using GitHub Actions.
 
 <p align="center">
-  <img src="architecture/CICD-Pipeline-Diagram.png"
+  <img src="architecture/CICD diagram.png"
        alt="CI/CD Pipeline"
        width="100%">
 </p>
----
 
+---
 ## Features
 
 - Secure administrator login with JWT authentication and bcrypt password hashing.
@@ -232,7 +232,7 @@ Provides real-time dashboards for monitoring:
 ### Login Page
 
 <p align="center">
-  <img src="Screenshots/Application/Login_page.png" alt="Login Page" width="900">
+  <img src="screenshots/Application/Login_page.png" alt="Login Page" width="900">
 </p>
 
 ---
@@ -240,7 +240,7 @@ Provides real-time dashboards for monitoring:
 ### Dashboard
 
 <p align="center">
-  <img src="Screenshots/Application/Dashboard.png" alt="Dashboard" width="900">
+  <img src="screenshots/Application/Dashboard.png" alt="Dashboard" width="900">
 </p>
 
 ---
@@ -248,7 +248,7 @@ Provides real-time dashboards for monitoring:
 ### Sign Up
 
 <p align="center">
-  <img src="Screenshots/Application/SignUp.png" alt="Sign Up" width="900">
+  <img src="screenshots/Application/SignUp.png" alt="Sign Up" width="900">
 </p>
 
 ---
@@ -256,7 +256,7 @@ Provides real-time dashboards for monitoring:
 ### Add Student
 
 <p align="center">
-  <img src="Screenshots/Application/Add_Student.png" alt="Add Student" width="900">
+  <img src="screenshots/Application/Add_Student.png" alt="Add Student" width="900">
 </p>
 
 ---
@@ -264,7 +264,7 @@ Provides real-time dashboards for monitoring:
 ### Student Added Successfully
 
 <p align="center">
-  <img src="Screenshots/Application/student_added.png" alt="Student Added" width="900">
+  <img src="screenshots/Application/student_added.png" alt="Student Added" width="900">
 </p>
 
 ---
@@ -272,7 +272,7 @@ Provides real-time dashboards for monitoring:
 ### Search Student
 
 <p align="center">
-  <img src="Screenshots/Application/Search_student.png" alt="Search Student" width="900">
+  <img src="screenshots/Application/Search_student.png" alt="Search Student" width="900">
 </p>
 
 ---
@@ -280,7 +280,7 @@ Provides real-time dashboards for monitoring:
 ### Edit Student
 
 <p align="center">
-  <img src="Screenshots/Application/Edit_student.png" alt="Edit Student" width="900">
+  <img src="screenshots/Application/Edit_student.png" alt="Edit Student" width="900">
 </p>
 
 ---
@@ -288,7 +288,7 @@ Provides real-time dashboards for monitoring:
 ### Student Updated Successfully
 
 <p align="center">
-  <img src="Screenshots/Application/student_updated.png" alt="Student Updated" width="900">
+  <img src="screenshots/Application/student_updated.png" alt="Student Updated" width="900">
 </p>
 
 ---
@@ -296,7 +296,7 @@ Provides real-time dashboards for monitoring:
 ### Delete Student
 
 <p align="center">
-  <img src="Screenshots/Application/Delete_student.png" alt="Delete Student" width="900">
+  <img src="screenshots/Application/Delete_student.png" alt="Delete Student" width="900">
 </p>
 
 ---
@@ -304,7 +304,7 @@ Provides real-time dashboards for monitoring:
 ### Student Deleted Successfully
 
 <p align="center">
-  <img src="Screenshots/Application/student_deleted.png" alt="Student Deleted" width="900">
+  <img src="screenshots/Application/student_deleted.png" alt="Student Deleted" width="900">
 </p>
 
 ---
@@ -314,7 +314,7 @@ Provides real-time dashboards for monitoring:
 ### Amazon S3 Static Website
 
 <p align="center">
-  <img src="Screenshots/AWS/Amazon S3.png" alt="Amazon S3" width="900">
+  <img src="screenshots/AWS/Amazon S3.png" alt="Amazon S3" width="900">
 </p>
 
 ---
@@ -322,7 +322,7 @@ Provides real-time dashboards for monitoring:
 ### API Gateway
 
 <p align="center">
-  <img src="Screenshots/AWS/API_gateway.png" alt="API Gateway" width="900">
+  <img src="screenshots/AWS/API_gateway.png" alt="API Gateway" width="900">
 </p>
 
 ---
@@ -330,7 +330,7 @@ Provides real-time dashboards for monitoring:
 ### AWS Lambda Functions
 
 <p align="center">
-  <img src="Screenshots/AWS/AWS_lambda_functions.png" alt="Lambda Functions" width="900">
+  <img src="screenshots/AWS/AWS_lambda_functions.png" alt="Lambda Functions" width="900">
 </p>
 
 ---
@@ -340,7 +340,7 @@ Provides real-time dashboards for monitoring:
 ### CloudWatch Dashboard
 
 <p align="center">
-  <img src="Screenshots/Monitoring/cloudwatch-dashboard.png" alt="CloudWatch Dashboard" width="900">
+  <img src="screenshots/Monitoring/cloudwatch-dashboard.png" alt="CloudWatch Dashboard" width="900">
 </p>
 
 ---
@@ -348,7 +348,7 @@ Provides real-time dashboards for monitoring:
 ### CloudWatch Alarms
 
 <p align="center">
-  <img src="Screenshots/Monitoring/Cloudwatch_alarms.png" alt="CloudWatch Alarms" width="900">
+  <img src="screenshots/Monitoring/Cloudwatch_alarms.png" alt="CloudWatch Alarms" width="900">
 </p>
 
 ---
@@ -356,7 +356,7 @@ Provides real-time dashboards for monitoring:
 ### Amazon SNS Notifications
 
 <p align="center">
-  <img src="Screenshots/Monitoring/Amazon SNS.png" alt="Amazon SNS" width="900">
+  <img src="screenshots/Monitoring/Amazon SNS.png" alt="Amazon SNS" width="900">
 </p>
 
 ---
@@ -364,7 +364,7 @@ Provides real-time dashboards for monitoring:
 ### Grafana Dashboard
 
 <p align="center">
-  <img src="Screenshots/Monitoring/Grafana-dashboard.png" alt="Grafana Dashboard" width="900">
+  <img src="screenshots/Monitoring/Grafana-dashboard.png" alt="Grafana Dashboard" width="900">
 </p>
 
 ---
@@ -372,12 +372,12 @@ Provides real-time dashboards for monitoring:
 # 🚀 CI/CD
 
 <p align="center">
-  <img src="Screenshots/cicd/github-actions-workflow.png"
+  <img src="screenshots/cicd/github-actions-workflow.png"
        alt="GitHub Actions Workflow"
        width="900">
 </p>
----
 
+---
 ## 📁 Project Structure
 
 ```text
